@@ -6,9 +6,10 @@ from logging.handlers import TimedRotatingFileHandler
 
 
 class ColoredFormatter(logging.Formatter):
+    COLOR_RESET = "\033[0m"
     def format(self, record: logging.LogRecord) -> str:
-        color = config.COLOR_MAP.get(record.levelno, config.COLOR_RESET)
-        return f"{color}{super().format(record)}{config.COLOR_RESET}"
+        color = config.COLOR_MAP.get(record.levelno, self.COLOR_RESET)
+        return f"{color}{super().format(record)}{self.COLOR_RESET}"
     
 def setup_logger(name: str = "logger") -> logging.Logger:
     logger = logging.getLogger(name)

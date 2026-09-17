@@ -6,7 +6,12 @@ from pathlib import Path
 
 # running path
 BASE_DIR = Path(__file__).resolve().parent
-COLOR_RESET = "\033[0m"
+
+# url
+ROOT_URL = r"https://account.chsi.com.cn"
+LOGIN_URL = r"https://account.chsi.com.cn/passport/login?service=https%3A%2F%2Faccount.chsi.com.cn%2Faccount%2Fj_spring_cas_security_check"
+
+
 
 # ======================================================================
 # END
@@ -26,4 +31,14 @@ COLOR_MAP = {
     logging.CRITICAL: "\033[1;31m"
 }
 
+# user data
+ACCOUNT = ""
+PASSWORD = ""
+
+# UA
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+
+# request delay
+MIN_DELAY = 1.0
+MAX_DELAY = 2.0
 
