@@ -14,18 +14,18 @@ class Authenticator:
     def _setup_session(self):
         self.session.headers.update({
             "User-Agent": config.UA,
-            "Referer": config.LOGIN_URL,
+            # "Referer": config.LOGIN_URL,
             "Origin": config.ROOT_URL
         })
 
     def login(self, account = config.ACCOUNT, password = config.PASSWORD) -> None:
         logger.info("尝试获取登录页面...")
         try:
-            page = self.session.get(config.LOGIN_URL, timeout=10)
+            page = self.session.get(config.LOGIN_URL, timeout=config.TIMEOUT)
             page.raise_for_status()
             delay()
         except Exception as e:
-            logger.critical("登录页面无法访问")
+            logger.critical("登录页面无法访问：{e}")
             sys.exit(1)
         try:
             soup = BeautifulSoup(page.text, "html.parser")
@@ -34,7 +34,7 @@ class Authenticator:
             execution = soup.select_one('input[name="execution"]').get("value")
             logger.info("execution: {excution}")
         except Exception as e:
-            logger.critical("无法解析页面")
+            logger.critical("无法解析页面：{e}")
             sys.exit(1)
 
         logger.info("开始登录...")
@@ -49,7 +49,7 @@ class Authenticator:
             login = self.session.post(
                 url=config.LOGIN_URL,
                 data=payload,
-                timeout=10
+                timeout=config.TIMEOUT
             )
             login.raise_for_status()
             if "您输入的用户名或密码有误" in login.text:
@@ -59,5 +59,5 @@ class Authenticator:
                 logger.info("登录成功")
             delay()
         except Exception as e:
-            logger.critical("登录请求失败")
+            logger.critical("登录请求失败：{e}")
             sys.exit(1)
