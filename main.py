@@ -1,18 +1,19 @@
-import json
-from core import ExcelPipeline
-import config
-from core import DataSpider
-from core import Authenticator
+import getpass
+
+from core import Authenticator, DataSpider, ExcelPipeline
 from utils import logger
 
+# login
+account = input("账户：")
+password = getpass.getpass("密码：")
+login = Authenticator()
+login.login(account, password)
 
-# login = Authenticator()
-# login.login("15371040816", "Zyc$0816")
-# spider = DataSpider(login.session)
-# data = spider.run("网络与信息安全")
+# select major
+major = input("专业：")
+spider = DataSpider(login.session)
+data, major_code, major_name = spider.run(major)
 
-with open("data.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-excel = ExcelPipeline(data, 1, "11")
+# output
+excel = ExcelPipeline(data, major_code, major_name)
 excel.run()

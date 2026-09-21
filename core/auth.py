@@ -1,9 +1,10 @@
 import sys
+
 import requests
-import config
-from utils import logger
-from utils import delay
 from bs4 import BeautifulSoup
+
+import config
+from utils import delay, logger
 
 
 class Authenticator:
@@ -19,7 +20,6 @@ class Authenticator:
         })
 
     def login(self, account = config.ACCOUNT, password = config.PASSWORD) -> None:
-
         # get session
         logger.info("尝试获取登录页面...")
         try:

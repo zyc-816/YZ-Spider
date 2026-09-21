@@ -1,19 +1,17 @@
-from dataclasses import dataclass
 import os
 import sys
-import pandas as pd
 import time
-import config
-from datetime import datetime
-from typing import List, Dict, Optional, Any
-from openpyxl import load_workbook
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-from openpyxl.utils import get_column_letter
-from utils import logger
-
-
 from dataclasses import dataclass, field
-from typing import List, Optional
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import pandas as pd
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.utils import get_column_letter
+
+import config
+from utils import logger
 
 
 @dataclass
@@ -260,18 +258,22 @@ class ExcelPipeline:
             logger.critical(f"解析数据失败：{e}")
             sys.exit(1)
 
-        # ensure output path
-        os.makedirs(self.output_dir, exist_ok=True)
+        try:
+            logger.info("正在写入excel文件...")
+            # ensure output path
+            os.makedirs(self.output_dir, exist_ok=True)
 
-        # build file name
-        time_stamp = time.strftime(r"%Y-%m-%d_%H-%M-%S")
-        file_name = f"({self.major_code}){self.major_name}-{time_stamp}.xlsx"
-        file_path = os.path.join(self.output_dir, file_name)
+            # build file name
+            time_stamp = time.strftime(r"%Y-%m-%d_%H-%M-%S")
+            file_name = f"({self.major_code}){self.major_name}-{time_stamp}.xlsx"
+            file_path = os.path.join(self.output_dir, file_name)
 
-        # make excel
-        logger.info("正在写入excel文件...")
-        flatten_list = [self._flatten_detail(_) for _ in detail_list]
-        df = pd.DataFrame(flatten_list)
-        df.to_excel(file_path, index=False, engine="openpyxl")
-        self._beautify_excel(file_path)
-        logger.info(f"写入完成：{file_path}/{file_name}")
+            # make excel
+            flatten_list = [self._flatten_detail(_) for _ in detail_list]
+            df = pd.DataFrame(flatten_list)
+            df.to_excel(file_path, index=False, engine="openpyxl")
+            self._beautify_excel(file_path)
+            logger.info(f"写入完成：{file_path}")
+        except Exception as e:
+            logger.critical(f"写入excel失败：{e}")
+            sys.exit(1)

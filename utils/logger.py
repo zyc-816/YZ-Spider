@@ -1,8 +1,9 @@
+import logging
 import os
 import sys
-import config
-import logging
 from logging.handlers import TimedRotatingFileHandler
+
+import config
 
 
 class ColoredFormatter(logging.Formatter):

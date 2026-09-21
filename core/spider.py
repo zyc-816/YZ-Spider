@@ -1,11 +1,13 @@
-import requests
-import sys
-import config
-import time
 import json
-from typing import Dict, List, Any, Optional
-from utils import logger
-from utils import delay
+import sys
+import time
+import turtle
+from typing import Any, Dict, List, Optional
+
+import requests
+
+import config
+from utils import delay, logger
 
 
 class DataSpider:
@@ -34,7 +36,7 @@ class DataSpider:
         return None
 
 
-    def run(self, key_word: str) -> List[Dict[str, Any]]:
+    def run(self, key_word: str) -> tuple[List[Dict[str, Any]], str, str]:
         # search key_word
         try:
             search_payload = {
@@ -179,12 +181,6 @@ class DataSpider:
                 school_list_page = school_list_page_response.json().get("msg").get("list")
                 school_list.extend(school_list_page)
                 logger.info(f"获取第{p+1} / {total_page}页成功")
-
-            # test
-            file_path = "list.json"
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(school_list, f, ensure_ascii=False, indent=2)
-
             logger.info("获取学校列表成功")
         except Exception as e:
             logger.critical(f"获取学校列表失败：{e}\n{school_list_page_response.json()}")
@@ -216,9 +212,4 @@ class DataSpider:
             logger.critical("获取学校详情失败")
             sys.exit(1)
 
-        # test
-        file_path = "data.json"
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(school_detail_list, f, ensure_ascii=False, indent=2)
-
-        return school_detail_list
+        return (school_detail_list, major_code, major_name)

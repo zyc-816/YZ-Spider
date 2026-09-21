@@ -2,10 +2,14 @@
 # BEGIN DO NOT EDIT
 # ======================================================================
 import logging
+import sys
 from pathlib import Path
 
 # running path
-BASE_DIR = Path(__file__).resolve().parent
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys.executable).resolve().parent
+else:
+    BASE_DIR = Path(__file__).resolve().parent
 
 # url
 ROOT_URL = r"https://account.chsi.com.cn"
