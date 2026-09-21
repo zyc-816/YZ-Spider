@@ -11,6 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent
 ROOT_URL = r"https://account.chsi.com.cn"
 LOGIN_URL = r"https://account.chsi.com.cn/passport/login?entrytype=yzgr&service=https%3A%2F%2Fyz.chsi.com.cn%2Fj_spring_cas_security_check"
 SIGN_URL = r"https://yz.chsi.com.cn/zsml/rs/zys.do"
+MAIN_URL = r"https://yz.chsi.com.cn/zsml/a/zydetail.do"
+SEARCH_URL = r"https://yz.chsi.com.cn/zsml/code/autozy.do"
+SCHOOL_LIST_URL = r"https://yz.chsi.com.cn/zsml/rs/zydws.do"
+SCHOOL_DETAIL_URL = r"https://yz.chsi.com.cn/zsml/rs/yjfxs.do"
 
 
 # ======================================================================
@@ -39,7 +43,7 @@ PASSWORD = ""
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
 
 # request config
-MIN_DELAY = 1.0
-MAX_DELAY = 2.0
+MIN_DELAY = 3.0
+MAX_DELAY = 4.0
 MAX_RETRIES = 3
 TIMEOUT = 10

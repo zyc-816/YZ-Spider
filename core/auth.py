@@ -19,6 +19,8 @@ class Authenticator:
         })
 
     def login(self, account = config.ACCOUNT, password = config.PASSWORD) -> None:
+
+        # get session
         logger.info("尝试获取登录页面...")
         try:
             page = self.session.get(config.LOGIN_URL, timeout=config.TIMEOUT)
@@ -27,16 +29,17 @@ class Authenticator:
         except Exception as e:
             logger.critical("登录页面无法访问：{e}")
             sys.exit(1)
+
+        # parse lt and execution value
         try:
             soup = BeautifulSoup(page.text, "html.parser")
             lt = soup.select_one('input[name="lt"]').get("value")
-            logger.info("lt: {lt}")
             execution = soup.select_one('input[name="execution"]').get("value")
-            logger.info("execution: {excution}")
         except Exception as e:
             logger.critical("无法解析页面：{e}")
             sys.exit(1)
 
+        # login
         logger.info("开始登录...")
         try:
             payload = {

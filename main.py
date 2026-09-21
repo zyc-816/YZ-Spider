@@ -6,4 +6,4 @@ from utils import logger
 login = Authenticator()
 login.login("15371040816", "Zyc$0816")
 spider = DataSpider(login.session)
-spider.run("085412", "网络与信息安全")
+spider.run("网络与信息安全")
