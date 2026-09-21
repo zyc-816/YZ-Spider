@@ -47,3 +47,6 @@ MIN_DELAY = 3.0
 MAX_DELAY = 4.0
 MAX_RETRIES = 3
 TIMEOUT = 10
+
+# output path
+OUTPUT_DIR = BASE_DIR / "outputs"
