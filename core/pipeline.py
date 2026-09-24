@@ -165,6 +165,14 @@ class ExcelPipeline:
             sub3_list.append(f"{prefix}({group.subject3.subject_code}){group.subject3.subject_name}".strip())
             sub4_list.append(f"{prefix}({group.subject4.subject_code}){group.subject4.subject_name}".strip())
 
+        sub1_reference_list, sub2_reference_list, sub3_reference_list, sub4_reference_list = [], [], [], []
+        for idx, group in enumerate(item.subject_groups, start=1):
+            prefix = f"方案{idx}: " if multi_group else ""
+            sub1_reference_list.append(f"{prefix}{group.subject1.reference_notes}".strip())
+            sub2_reference_list.append(f"{prefix}{group.subject2.reference_notes}".strip())
+            sub3_reference_list.append(f"{prefix}{group.subject3.reference_notes}".strip())
+            sub4_reference_list.append(f"{prefix}{group.subject4.reference_notes}".strip())
+
         degree_map = {"zyxw": "专硕", "xsxw": "学硕"}
         degree_text = degree_map.get(item.degree_type, item.degree_type)
 
@@ -198,10 +206,14 @@ class ExcelPipeline:
             "退役士兵计划": "是" if item.is_veteran_plan else "否",
             "少数民族骨干专项计划": "是" if item.is_special_public_plan else "否",
 
-            "科目一(政治/综合)": "\n".join(sub1_list),
-            "科目二(外语)": "\n".join(sub2_list),
-            "科目三(业务课一)": "\n".join(sub3_list),
-            "科目四(业务课二/专业课)": "\n".join(sub4_list),
+            "科目一(政治/综合)": " 或 ".join(sub1_list),
+            "科目一参考说明": " 或 ".join(sub1_reference_list),
+            "科目二(外语)": " 或 ".join(sub2_list),
+            "科目二参考说明": " 或 ".join(sub2_reference_list),
+            "科目三(业务课一)": " 或 ".join(sub3_list),
+            "科目三参考说明": " 或 ".join(sub3_reference_list),
+            "科目四(业务课二/专业课)": " 或 ".join(sub4_list),
+            "科目四参考说明": " 或 ".join(sub4_reference_list),
 
             "考试方式": item.exam_type_name,
             "指导教师": item.advisor_name,
